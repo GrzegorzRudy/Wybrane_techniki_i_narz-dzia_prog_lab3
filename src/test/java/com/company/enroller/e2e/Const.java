@@ -20,5 +20,6 @@ public class Const {
 
     // LABELS
     public final static String NEW_MEETING_BTN_LABEL = "Dodaj nowe spotkanie";
+    public static int ACTUAL_MEETING_NUMBER;
 
 }
