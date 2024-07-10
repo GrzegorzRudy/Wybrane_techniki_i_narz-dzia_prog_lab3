@@ -35,16 +35,35 @@ public class MeetingsTests extends BaseTests {
         this.page.addNewMeeting(Const.MEETING_III_TITLE, Const.MEETING_DESC);
         // Asserts
         assertThat(this.page.getMeetingByTitle(Const.MEETING_III_TITLE)).isNotNull();
+
         // TODO: Dodaj sprawdzenie czy poprawnie został dodany opis.
+        assertThat(this.page.getMeetingDescriptionByTitle(Const.MEETING_III_TITLE)).isEqualTo(Const.MEETING_DESC);
         // TODO: Dodaj sprawdzenie czy zgadza się aktualna liczba spotkań.
+        assertThat(this.page.getMeetingNumber()).isEqualTo(Const.ACTUAL_MEETING_NUMBER + 1);
     }
 
     // @Test
     // TODO: Sprawdź czy użytkownik może dodać spotkanie bez nazwy. Załóż że nie ma takiej możliwości a warunkiem
     //  jest nieaktywny przycisk "Dodaj".
+    @Test
+    @DisplayName("Spotkania bez nazwy")
+    void addMeetingWithoutTitle() {
+        this.loginPage.loginAs(Const.USER_I_NAME);
+        this.page.MeetingName("", Const.MEETING_DESC); // brak nazwy
+        assertThat(this.page.AddButtonBoolean()).isFalse();
+    }
 
     // @Test
     // TODO: Sprawdź czy użytkownik może poprawnie zapisać się do spotkania.
+    @Test
+    @DisplayName("Poprawność zapisu na spotkanie")
+    void signUpForMeeting() {
+        this.loginPage.loginAs(Const.USER_I_NAME);
+        this.page.userSignUp(Const.MEETING_I_TITLE);
+        assertThat(this.page.isUserAMemberOfMeeting(Const.USER_I_NAME, Const.MEETING_I_TITLE)).isTrue();
+    }
+
+
 
     // @Test
     // TODO: Sprawdź czy użytkownik może usunąć puste spotkanie.
