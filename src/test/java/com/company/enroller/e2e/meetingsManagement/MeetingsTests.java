@@ -38,8 +38,15 @@ public class MeetingsTests extends BaseTests {
 
         // TODO: Dodaj sprawdzenie czy poprawnie został dodany opis.
         assertThat(this.page.getMeetingDescriptionByTitle(Const.MEETING_III_TITLE)).isEqualTo(Const.MEETING_DESC);
+
+        this.page.sleep(1);
         // TODO: Dodaj sprawdzenie czy zgadza się aktualna liczba spotkań.
-        assertThat(this.page.getMeetingNumber()).isEqualTo(Const.ACTUAL_MEETING_NUMBER + 1);
+        try {
+            Thread.sleep(5000); // Zatrzymaj wykonanie na 5 sekund (5000 milisekund)
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+       assertThat(this.page.getMeetingNumber()).isEqualTo(Const.ACTUAL_MEETING_NUMBER + 1);
     }
 
     // @Test
@@ -67,6 +74,15 @@ public class MeetingsTests extends BaseTests {
 
     // @Test
     // TODO: Sprawdź czy użytkownik może usunąć puste spotkanie.
+    @Test
+    @DisplayName("Kasowanie spotkania.")
+    void deleteEmptyMeeting() {
+        this.loginPage.loginAs(Const.USER_I_NAME);
+        this.page.addNewMeeting(Const.MEETING_TO_DELETE, Const.MEETING_DESC);
+        assertThat(this.page.getMeetingByTitle(Const.MEETING_TO_DELETE)).isNotNull();
+        this.page.deleteMeeting(Const.MEETING_TO_DELETE);
+        assertThat(this.page.getMeetingByTitle(Const.MEETING_TO_DELETE)).isNull();
+    }
 
     @AfterEach
     void exit() {

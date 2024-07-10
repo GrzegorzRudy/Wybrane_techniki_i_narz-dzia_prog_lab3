@@ -14,6 +14,7 @@ public class Const {
     public final static String MEETING_I_TITLE = "Meeting A";
     public final static String MEETING_II_TITLE = "Meeting B";
     public final static String MEETING_III_TITLE = "Meeting C";
+    public final static String MEETING_TO_DELETE = "Meeting to delete";
     public final static String MEETING_DESC = "Meeting Description";
 
 

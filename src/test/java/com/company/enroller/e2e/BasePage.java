@@ -76,7 +76,7 @@ public class BasePage {
     public String getMeetingDescriptionByTitle(String meetingTitle) {
         WebElement meetingRow = this.getMeetingByTitle(meetingTitle);
         if (meetingRow != null) {
-            WebElement descriptionCell = meetingRow.findElement(By.cssSelector("td.description")); // Replace with actual locator
+            WebElement descriptionCell = meetingRow.findElement(By.cssSelector("td.description")); // Zaktualizuj na właściwy selektor
             return descriptionCell.getText();
         }
         return null;
@@ -132,6 +132,13 @@ public class BasePage {
         if (meetingRow != null) {
             WebElement signUpButton = meetingRow.findElement(By.cssSelector(".signUpButton")); // Replace with actual locator
             signUpButton.click();
+        }
+    }
+    public void deleteMeeting(String meetingTitle) {
+        WebElement meetingRow = this.getMeetingByTitle(meetingTitle);
+        if (meetingRow != null) {
+            WebElement deleteButton = meetingRow.findElement(By.cssSelector(".button-outline")); // Replace with actual locator
+            deleteButton.click();
         }
     }
 
