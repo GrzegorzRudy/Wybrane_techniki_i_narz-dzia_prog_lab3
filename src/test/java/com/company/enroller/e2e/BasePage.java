@@ -73,6 +73,20 @@ public class BasePage {
         return null;
     }
 
+    public String getMeetingDescriptionByTitle(String meetingTitle) {
+        WebElement meetingRow = this.getMeetingByTitle(meetingTitle);
+        if (meetingRow != null) {
+            WebElement descriptionCell = meetingRow.findElement(By.cssSelector("td.description")); // Replace with actual locator
+            return descriptionCell.getText();
+        }
+        return null;
+    }
+
+    public int getMeetingNumber() {
+        List<WebElement> meetings = this.getMeetings();
+        return (meetings != null) ? meetings.size() : 0;
+    }
+
     public List<WebElement> getMeetings() {
         String meetingSel = "table > tbody > tr";
         try {
@@ -84,7 +98,17 @@ public class BasePage {
         }
         return null;
     }
+    public void MeetingName(String title, String description) {
+        WebElement titleInput = driver.findElement(By.id("meetingTitle")); // Replace with actual locator
+        WebElement descriptionInput = driver.findElement(By.id("meetingDescription")); // Replace with actual locator
 
+        titleInput.sendKeys(title);
+        descriptionInput.sendKeys(description);
+    }
+    public boolean AddButtonBoolean() {
+        WebElement addButton = driver.findElement(By.id("addMeetingButton")); // Replace with actual locator
+        return addButton.isEnabled();
+    }
     public List<String> getParticipantsListForMeeting(String meetingName) {
         String participantsItemSel = "td li";
         WebElement meeting = this.getMeetingByTitle(meetingName);
@@ -94,6 +118,21 @@ public class BasePage {
                         .map(WebElement::getText)
                         .toList())
                 .orElse(List.of());
+    }
+    public boolean isUserAMemberOfMeeting(String userName, String meetingTitle) {
+        WebElement meetingRow = this.getMeetingByTitle(meetingTitle);
+        if (meetingRow != null) {
+            List<WebElement> participants = meetingRow.findElements(By.cssSelector("td.participant")); // Replace with actual locator
+            return participants.stream().anyMatch(p -> p.getText().equals(userName));
+        }
+        return false;
+    }
+    public void userSignUp(String meetingTitle) {
+        WebElement meetingRow = this.getMeetingByTitle(meetingTitle);
+        if (meetingRow != null) {
+            WebElement signUpButton = meetingRow.findElement(By.cssSelector(".signUpButton")); // Replace with actual locator
+            signUpButton.click();
+        }
     }
 
 //    public WebElement getMeetingByTitle(String meetingName) {
